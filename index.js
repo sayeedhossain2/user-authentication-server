@@ -43,6 +43,23 @@ async function run() {
       const result = await allCompany.deleteOne(query);
       res.send(result);
     });
+
+    // Update method
+    app.put("/companyUpdate/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const dataInfo = req.body;
+      const option = { upsert: true };
+      const updatedInfo = {
+        $set: {
+          name: dataInfo.name,
+          userid: dataInfo.userid,
+          password: dataInfo.password,
+        },
+      };
+      const result = await allCompany.updateOne(filter, updatedInfo, option);
+      res.send(result);
+    });
   } finally {
   }
 }
